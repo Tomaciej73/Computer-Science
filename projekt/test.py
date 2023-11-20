@@ -9,25 +9,22 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import make_pipeline
 
-# Ładowanie danych z pliku
 file_path = 'australian.dat'
 data = np.loadtxt(file_path)
-
-# Rozdzielanie danych na cechy i etykiety
+#cechy i etykiety
 X, y = data[:, :-1], data[:, -1]
-
-# Dzielenie danych na zbiory treningowe i testowe
+#dane testowe i treningowe
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
 
-# Inicjalizacja klasyfikatorów
+#klasyfikatory
 ada_boost = AdaBoostClassifier()
 gradient_boosting = GradientBoostingClassifier()
 random_forest = RandomForestClassifier()
-svc = SVC(probability=True)  # Włączamy probability, aby móc obliczyć prawdopodobieństwo
+svc = SVC(probability=True) #obliczanie prawdopodobienstwa
 logistic_regression = LogisticRegression()
 knn = KNeighborsClassifier()
 
-# Lista klasyfikatorów
+#klasyfikatory
 classifiers = [
     ada_boost,
     gradient_boosting,
@@ -36,6 +33,7 @@ classifiers = [
     logistic_regression,
     knn
 ]
+#nazwy klasyfikatorow
 classifier_names = [
     'AdaBoost',
     'GradientBoosting',
@@ -45,37 +43,37 @@ classifier_names = [
     'KNN'
 ]
 
-# Słownik do przechowywania efektywności
+#slownik efektywnosci
 effectiveness = {}
 
-# Trenowanie każdego klasyfikatora i obliczanie efektywności
+# trenowanie klasyfikatorow i liczenie efektywnosci
 for clf, name in zip(classifiers, classifier_names):
-    # Stworzenie potoku: normalizacja danych i klasyfikator
+    # normalizacja danych
     pipeline = make_pipeline(StandardScaler(), clf)
     pipeline.fit(X_train, y_train)
     predictions = pipeline.predict(X_test)
     effectiveness[name] = accuracy_score(y_test, predictions)
 
-# Obliczanie efektywności kumulatywnej
+#efektywnosc kumulatywna
 cumulative_scores = np.cumsum(list(effectiveness.values()))
 cumulative_effectiveness = cumulative_scores / np.arange(1, len(effectiveness) + 1)
 
-# Tworzenie wykresu
+#wykres
 plt.figure(figsize=(10, 5))
 
-# Wykres dla efektywności kumulatywnej
+#wykres efektywnosci kulmulatywnej
 plt.plot(classifier_names, cumulative_effectiveness, marker='o', label='Cumulative Effectiveness')
 
-# Wykres dla efektywności pojedynczych modeli
+#wykres dla pojedynczej efektywnosci
 plt.plot(classifier_names, list(effectiveness.values()), marker='o', linestyle='--', label='Separate Effectiveness')
 
-# Dodanie tytułów i etykiet
+#tytuly i etykiety
 plt.title('Model Effectiveness Comparison')
 plt.xlabel('Classifiers')
 plt.ylabel('Effectiveness')
 
-# Dodanie legendy
+#legenda
 plt.legend()
 
-# Pokazanie wykresu
+#wynik
 plt.show()
