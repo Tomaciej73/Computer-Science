@@ -62,15 +62,15 @@ cumulative_effectiveness = cumulative_scores / np.arange(1, len(effectiveness) +
 plt.figure(figsize=(10, 5))
 
 #wykres efektywnosci kulmulatywnej
-plt.plot(classifier_names, cumulative_effectiveness, marker='o', label='Cumulative Effectiveness')
+plt.plot(classifier_names, cumulative_effectiveness, marker='o', label='Skumulowana skuteczność')
 
 #wykres dla pojedynczej efektywnosci
-plt.plot(classifier_names, list(effectiveness.values()), marker='o', linestyle='--', label='Separate Effectiveness')
+plt.plot(classifier_names, list(effectiveness.values()), marker='o', linestyle='--', label='Oddzielna skuteczność')
 
 #tytuly i etykiety
-plt.title('Model Effectiveness Comparison')
-plt.xlabel('Classifiers')
-plt.ylabel('Effectiveness')
+plt.title('Porównanie efektywności modelu')
+plt.xlabel('Klasyfikatory')
+plt.ylabel('Efektywność')
 
 #legenda
 plt.legend()
